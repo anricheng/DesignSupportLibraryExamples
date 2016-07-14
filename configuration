@@ -1,0 +1,24 @@
+Android Support Design Library配置指南
+
+一般按照官方的配置步骤基本上能够很简单地配置成功。这里简要概述一下：
+
+打开SDK Manager更新Android Support Library以及Android Support Reposity。更新成功之后就会在your sdk directory\extras\android\support目录下面找到design目录，这个就是Android Support Design Library路径。从这里可以找到android.support-design.jar文件，以及相应的属性文件。
+然后在工程的build.gradle中添加下面这句:
+
+
+compile 'com.Android.support:design:22.2.0' 
+
+然后就可以欢快地使用Android Support Design Library了吗？当然对于大部分人来说是的，但是对于之前工程使用了NavigationDrawerLibrary开源库的人来说，可能就要多费一番功夫了。
+
+如果你使用的是compile直接使用代码仓库中的工程可以不用看了，因为开源库的开发者已经使用了最新的Android Support Design Library库更新了自己写的视图，不会出现冲突问题。下面的说明适合于自己把源码下载到本地进行维护修改的朋友。
+
+之前因为需要实现Material Design风格的侧边栏，使用了开源库NavigationDrawerLibrary，但是当我把Android Support Design Library库加入工程中进行编译的时候，出现了Attribute 'XXX' has been defined这种异常。主要是insectForeground和statusBarBackground这两个属性。
+
+因为Android Support Design Library库中也有类似效果的侧边栏，可能是借鉴了这个开源库的实现，也可能具体实现的时候某些状态最佳使用这个属性名，两边开发者出现了统一观点，所以就出现了这个情况。
+
+我自己使用了下面这个简单方法来避免解决这个问题.
+
+找到NavigationDrawerLibrary的attrs.xml，然后删掉.
+在NavigationDrawerLibrary库中添加Android Support Design Library支持.
+把navigation_main.xml中使用的自定义的ScrimInsetsView类换成Android Support Design Library中的android.support.design.internal.ScrimInsetsFrameLayout即可，然后重新编译即可。
+玩得愉快。。。
